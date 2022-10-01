@@ -3,6 +3,7 @@ use bevy::{
     prelude::*,
     time::FixedTimestep,
 };
+use bevy_web_fullscreen::FullViewportPlugin;
 
 // defines
 static PAUSE_TIME: f32 = 0.7;
@@ -88,8 +89,9 @@ impl Default for BallBundle {
 }
 
 fn main() {
-    App::new()
-        .add_plugins(DefaultPlugins)
+    let mut app = App::new();
+
+    app.add_plugins(DefaultPlugins)
         .add_state(AppState::InGame)
         .insert_resource(ClearColor(Color::rgb(0.24, 0.44, 0.94)))
         .insert_resource(PauseTimer(0.0))
@@ -124,8 +126,12 @@ fn main() {
             SystemSet::new()
                 .with_run_criteria(FixedTimestep::step(1.0 / 60.0))
                 .with_system(update_collider_historic_velocity),
-        )
-        .run();
+        );
+
+    #[cfg(target_family = "wasm")]
+    app.add_plugin(FullViewportPlugin);
+
+    app.run();
 }
 
 fn setup(

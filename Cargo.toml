@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 bevy = "0.8"
+bevy_web_fullscreen = { git = "https://github.com/ostwilkens/bevy_web_fullscreen.git", rev = "adf096441702d5c7672983fe50c92cd62d23dac7" }
 rand = "0.8.5"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
